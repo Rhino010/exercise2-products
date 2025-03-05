@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { func, number } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const ProductForm = ({ selectedProduct, onProductUpdated }) => {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [errors, setErrors] = useState({});
-    const [error, setError] = useState({});
+    const [error, setError] = useState(null);
+    const [isSubmitting, setSubmitting] = useState(false);
 
     useEffect(() => {
         if (selectedProduct) {
@@ -73,8 +75,11 @@ const ProductForm = ({ selectedProduct, onProductUpdated }) => {
 };
 
 ProductForm.propTypes = {
-    selectedProduct: number,
-    onProductUpdated: func
-}
+    selectedProduct: PropTypes.shape({
+        name: PropTypes.string,
+        price: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    }),
+    onProductUpdated: PropTypes.func.isRequired
+};
 
 export default ProductForm;
